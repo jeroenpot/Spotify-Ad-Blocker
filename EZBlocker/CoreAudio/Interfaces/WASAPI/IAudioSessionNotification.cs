@@ -19,18 +19,16 @@
      misrepresented as being the original source code.
   3. This notice may not be removed or altered from any source distribution.
 */
-using System;
-using System.Collections.Generic;
-using System.Text;
+
 using System.Runtime.InteropServices;
 
 namespace CoreAudio.Interfaces
 {
     [Guid("641DD20B-4D41-49CC-ABA3-174B9477BB08"),
-    InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+     InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
     public interface IAudioSessionNotification
     {
         [PreserveSig]
-        int OnSessionCreated(Interfaces.IAudioSessionControl2 NewSession);
+        int OnSessionCreated(IAudioSessionControl2 NewSession);
     }
 }

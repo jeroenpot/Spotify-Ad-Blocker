@@ -19,17 +19,16 @@
      misrepresented as being the original source code.
   3. This notice may not be removed or altered from any source distribution.
 */
+
 using System;
-using System.Collections.Generic;
-using System.Text;
-using CoreAudio.Interfaces;
 using System.Runtime.InteropServices;
+using CoreAudio.Interfaces;
 
 namespace CoreAudio
 {
     public class Connector
     {
-        private IConnector _Connector;
+        private readonly IConnector _Connector;
         private Part _Part;
 
         internal Connector(IConnector connector)
@@ -55,16 +54,6 @@ namespace CoreAudio
                 Marshal.ThrowExceptionForHR(_Connector.GetDataFlow(out flow));
                 return flow;
             }
-        }
-
-        public void ConnecTo(Connector connectTo)
-        {
-            Marshal.ThrowExceptionForHR(_Connector.ConnectTo((IConnector)connectTo));
-        }
-
-        public void Disconnect()
-        {
-            Marshal.ThrowExceptionForHR(_Connector.Disconnect());
         }
 
         public bool IsConnected
@@ -113,17 +102,27 @@ namespace CoreAudio
             {
                 if (_Part == null)
                 {
-                    IntPtr pUnk = Marshal.GetIUnknownForObject(_Connector);
+                    var pUnk = Marshal.GetIUnknownForObject(_Connector);
                     IntPtr ppv;
 
-                    int res = Marshal.QueryInterface(pUnk, ref IIDs.IID_IPart, out ppv);
+                    var res = Marshal.QueryInterface(pUnk, ref IIDs.IID_IPart, out ppv);
                     if (ppv != IntPtr.Zero)
-                        _Part = new Part((IPart)Marshal.GetObjectForIUnknown(ppv));
+                        _Part = new Part((IPart) Marshal.GetObjectForIUnknown(ppv));
                     else
                         _Part = null;
                 }
                 return _Part;
             }
+        }
+
+        public void ConnecTo(Connector connectTo)
+        {
+            Marshal.ThrowExceptionForHR(_Connector.ConnectTo((IConnector) connectTo));
+        }
+
+        public void Disconnect()
+        {
+            Marshal.ThrowExceptionForHR(_Connector.Disconnect());
         }
     }
 }

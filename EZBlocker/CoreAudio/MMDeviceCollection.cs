@@ -19,9 +19,7 @@
      misrepresented as being the original source code.
   3. This notice may not be removed or altered from any source distribution.
 */
-using System;
-using System.Collections.Generic;
-using System.Text;
+
 using System.Runtime.InteropServices;
 using CoreAudio.Interfaces;
 
@@ -29,7 +27,12 @@ namespace CoreAudio
 {
     public class MMDeviceCollection
     {
-        private IMMDeviceCollection _MMDeviceCollection;
+        private readonly IMMDeviceCollection _MMDeviceCollection;
+
+        internal MMDeviceCollection(IMMDeviceCollection parent)
+        {
+            _MMDeviceCollection = parent;
+        }
 
         public int Count
         {
@@ -37,7 +40,7 @@ namespace CoreAudio
             {
                 uint result;
                 Marshal.ThrowExceptionForHR(_MMDeviceCollection.GetCount(out result));
-                return (int)result;
+                return (int) result;
             }
         }
 
@@ -46,14 +49,9 @@ namespace CoreAudio
             get
             {
                 IMMDevice result;
-                _MMDeviceCollection.Item((uint)index, out result);
+                _MMDeviceCollection.Item((uint) index, out result);
                 return new MMDevice(result);
             }
-        }
-
-        internal MMDeviceCollection(IMMDeviceCollection parent)
-        {
-            _MMDeviceCollection = parent;
         }
     }
 }

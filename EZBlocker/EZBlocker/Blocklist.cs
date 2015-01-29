@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace EZBlocker
@@ -21,7 +16,7 @@ namespace EZBlocker
         {
             try
             {
-                foreach (String line in File.ReadAllLines("blocklist.txt").Distinct().Reverse())
+                foreach (var line in File.ReadAllLines("blocklist.txt").Distinct().Reverse())
                 {
                     AdsList.Items.Add(line);
                 }
@@ -41,8 +36,8 @@ namespace EZBlocker
         {
             try
             {
-                string[] ads = new string[AdsList.Items.Count];
-                for (int i = 0; i < AdsList.Items.Count; i++)
+                var ads = new string[AdsList.Items.Count];
+                for (var i = 0; i < AdsList.Items.Count; i++)
                 {
                     ads[i] = AdsList.Items[i].ToString();
                 }
@@ -52,8 +47,7 @@ namespace EZBlocker
             {
                 Console.WriteLine(ee);
             }
-            this.Close();
+            Close();
         }
-
     }
 }

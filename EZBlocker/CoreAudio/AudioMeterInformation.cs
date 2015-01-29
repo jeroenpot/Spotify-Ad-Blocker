@@ -19,19 +19,15 @@
      misrepresented as being the original source code.
   3. This notice may not be removed or altered from any source distribution.
 */
-using System;
-using System.Collections.Generic;
-using System.Text;
-using CoreAudio.Interfaces;
+
 using System.Runtime.InteropServices;
+using CoreAudio.Interfaces;
 
 namespace CoreAudio
 {
     public class AudioMeterInformation
     {
-        private IAudioMeterInformation _AudioMeterInformation;
-        private EEndpointHardwareSupport _HardwareSupport;
-        private AudioMeterInformationChannels _Channels;
+        private readonly IAudioMeterInformation _AudioMeterInformation;
 
         internal AudioMeterInformation(IAudioMeterInformation realInterface)
         {
@@ -39,26 +35,12 @@ namespace CoreAudio
 
             _AudioMeterInformation = realInterface;
             Marshal.ThrowExceptionForHR(_AudioMeterInformation.QueryHardwareSupport(out HardwareSupp));
-            _HardwareSupport = (EEndpointHardwareSupport)HardwareSupp;
-            _Channels = new AudioMeterInformationChannels(_AudioMeterInformation);
-
+            HardwareSupport = (EEndpointHardwareSupport) HardwareSupp;
+            PeakValues = new AudioMeterInformationChannels(_AudioMeterInformation);
         }
 
-        public AudioMeterInformationChannels PeakValues
-        {
-            get
-            {
-                return _Channels;
-            }
-        }
-
-        public EEndpointHardwareSupport HardwareSupport
-        {
-            get
-            {
-                return _HardwareSupport;
-            }
-        }
+        public AudioMeterInformationChannels PeakValues { get; private set; }
+        public EEndpointHardwareSupport HardwareSupport { get; private set; }
 
         public float MasterPeakValue
         {

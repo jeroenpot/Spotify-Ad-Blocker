@@ -19,30 +19,36 @@
      misrepresented as being the original source code.
   3. This notice may not be removed or altered from any source distribution.
 */
+
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Runtime.InteropServices;
 
 namespace CoreAudio.Interfaces
 {
     [Guid("24918ACC-64B3-37C1-8CA9-74A66E9957A8"),
-    InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+     InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
     public interface IAudioSessionEvents
     {
-        [PreserveSig] 
+        [PreserveSig]
         int OnDisplayNameChanged([MarshalAs(UnmanagedType.LPWStr)] string NewDisplayName, Guid EventContext);
-        [PreserveSig] 
+
+        [PreserveSig]
         int OnIconPathChanged([MarshalAs(UnmanagedType.LPWStr)] string NewIconPath, Guid EventContext);
-        [PreserveSig] 
-        int OnSimpleVolumeChanged(float NewVolume,bool newMute, Guid EventContext);
-        [PreserveSig] 
-        int OnChannelVolumeChanged(UInt32 ChannelCount,  IntPtr NewChannelVolumeArray, UInt32 ChangedChannel, Guid EventContext);
-        [PreserveSig] 
+
+        [PreserveSig]
+        int OnSimpleVolumeChanged(float NewVolume, bool newMute, Guid EventContext);
+
+        [PreserveSig]
+        int OnChannelVolumeChanged(UInt32 ChannelCount, IntPtr NewChannelVolumeArray, UInt32 ChangedChannel,
+            Guid EventContext);
+
+        [PreserveSig]
         int OnGroupingParamChanged(Guid NewGroupingParam, Guid EventContext);
-        [PreserveSig] 
+
+        [PreserveSig]
         int OnStateChanged(AudioSessionState NewState);
-        [PreserveSig] 
+
+        [PreserveSig]
         int OnSessionDisconnected(AudioSessionDisconnectReason DisconnectReason);
     }
 }

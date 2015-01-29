@@ -19,11 +19,9 @@
      misrepresented as being the original source code.
   3. This notice may not be removed or altered from any source distribution.
 */
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Runtime.InteropServices;
 
+using System;
+using System.Runtime.InteropServices;
 
 namespace CoreAudio.Interfaces
 {
@@ -32,12 +30,15 @@ namespace CoreAudio.Interfaces
     internal interface ISimpleAudioVolume
     {
         [PreserveSig]
-        int SetMasterVolume(  float fLevel,ref Guid EventContext);
+        int SetMasterVolume(float fLevel, ref Guid EventContext);
+
         [PreserveSig]
-        int GetMasterVolume( out float pfLevel);
+        int GetMasterVolume(out float pfLevel);
+
         [PreserveSig]
-        int SetMute( bool bMute, ref Guid EventContext) ;
+        int SetMute(bool bMute, ref Guid EventContext);
+
         [PreserveSig]
-        int GetMute( out bool bMute);
+        int GetMute(out bool bMute);
     }
 }

@@ -19,17 +19,20 @@
      misrepresented as being the original source code.
   3. This notice may not be removed or altered from any source distribution.
 */
-using System;
-using System.Collections.Generic;
-using System.Text;
-using CoreAudio.Interfaces;
+
 using System.Runtime.InteropServices;
+using CoreAudio.Interfaces;
 
 namespace CoreAudio
 {
     public class AudioMeterInformationChannels
     {
-        IAudioMeterInformation _AudioMeterInformation;
+        private readonly IAudioMeterInformation _AudioMeterInformation;
+
+        internal AudioMeterInformationChannels(IAudioMeterInformation parent)
+        {
+            _AudioMeterInformation = parent;
+        }
 
         public int Count
         {
@@ -45,17 +48,13 @@ namespace CoreAudio
         {
             get
             {
-                float[] peakValues = new float[Count];
-                GCHandle Params = GCHandle.Alloc(peakValues, GCHandleType.Pinned);
-                Marshal.ThrowExceptionForHR(_AudioMeterInformation.GetChannelsPeakValues(peakValues.Length, Params.AddrOfPinnedObject()));
+                var peakValues = new float[Count];
+                var Params = GCHandle.Alloc(peakValues, GCHandleType.Pinned);
+                Marshal.ThrowExceptionForHR(_AudioMeterInformation.GetChannelsPeakValues(peakValues.Length,
+                    Params.AddrOfPinnedObject()));
                 Params.Free();
                 return peakValues[index];
             }
-        }
-
-        internal AudioMeterInformationChannels(IAudioMeterInformation parent)
-        {
-            _AudioMeterInformation = parent;
         }
     }
 }

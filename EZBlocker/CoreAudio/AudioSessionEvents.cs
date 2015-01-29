@@ -21,16 +21,14 @@
 */
 
 using System;
-using System.Collections.Generic;
-using System.Text;
-using CoreAudio.Interfaces;
 using System.Runtime.InteropServices;
+using CoreAudio.Interfaces;
 
 namespace CoreAudio
 {
     internal class AudioSessionEvents : IAudioSessionEvents
     {
-        private AudioSessionControl2 _Parent;
+        private readonly AudioSessionControl2 _Parent;
 
         internal AudioSessionEvents(AudioSessionControl2 parent)
         {
@@ -59,7 +57,8 @@ namespace CoreAudio
         }
 
         [PreserveSig]
-        public int OnChannelVolumeChanged(UInt32 ChannelCount, IntPtr NewChannelVolumeArray, UInt32 ChangedChannel, Guid EventContext)
+        public int OnChannelVolumeChanged(UInt32 ChannelCount, IntPtr NewChannelVolumeArray, UInt32 ChangedChannel,
+            Guid EventContext)
         {
             _Parent.FireChannelVolumeChanged(ChannelCount, NewChannelVolumeArray, ChangedChannel, EventContext);
             return 0;

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 using CoreAudio.Interfaces;
 
 namespace CoreAudio
@@ -13,8 +10,8 @@ namespace CoreAudio
 
     public class CPolicyConfigClient
     {
-        private IPolicyConfig _policyConfigClient = new _CPolicyConfigClient() as IPolicyConfig;
-       
+        private readonly IPolicyConfig _policyConfigClient = new _CPolicyConfigClient() as IPolicyConfig;
+
         public int SetDefaultDevie(string deviceID)
         {
             _policyConfigClient.SetDefaultEndpoint(deviceID, ERole.eConsole);

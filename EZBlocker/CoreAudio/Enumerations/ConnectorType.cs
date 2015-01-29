@@ -19,9 +19,6 @@
      misrepresented as being the original source code.
   3. This notice may not be removed or altered from any source distribution.
 */
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace CoreAudio
 {
@@ -32,6 +29,6 @@ namespace CoreAudio
         Physical_External = (Physical_Internal + 1),
         Software_IO = (Physical_External + 1),
         Software_Fixed = (Software_IO + 1),
-        Network = (Software_Fixed + 1) 
+        Network = (Software_Fixed + 1)
     }
 }

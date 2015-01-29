@@ -20,20 +20,17 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-using System;
-using System.Collections.Generic;
-#if (NET40) 
-using System.Linq;
-#endif
-using System.Text;
-using CoreAudio.Interfaces;
 using System.Runtime.InteropServices;
+using CoreAudio.Interfaces;
+#if (NET40)
+#endif
 
 namespace CoreAudio
 {
     public class SessionCollection
     {
-        IAudioSessionEnumerator _AudioSessionEnumerator;
+        private readonly IAudioSessionEnumerator _AudioSessionEnumerator;
+
         internal SessionCollection(IAudioSessionEnumerator realEnumerator)
         {
             _AudioSessionEnumerator = realEnumerator;
@@ -55,7 +52,7 @@ namespace CoreAudio
             {
                 int result;
                 Marshal.ThrowExceptionForHR(_AudioSessionEnumerator.GetCount(out result));
-                return (int)result;
+                return result;
             }
         }
     }

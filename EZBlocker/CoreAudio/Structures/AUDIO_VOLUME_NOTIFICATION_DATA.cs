@@ -21,19 +21,16 @@
 */
 
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace CoreAudio.Interfaces
 {
     internal struct AUDIO_VOLUME_NOTIFICATION_DATA
     {
-        public Guid   guidEventContext;
-        public bool   bMuted;
-        public float  fMasterVolume;
-        public uint   nChannels;
-        public float  ChannelVolume;
-
+        public bool bMuted;
+        public float ChannelVolume;
+        public float fMasterVolume;
+        public Guid guidEventContext;
+        public uint nChannels;
         //Code Should Compile at warning level4 without any warnings, 
         //However this struct will give us Warning CS0649: Field [Fieldname] 
         //is never assigned to, and will always have its default value
@@ -49,6 +46,5 @@ namespace CoreAudio.Interfaces
             nChannels = 0;
             ChannelVolume = 0;
         }
-
     }
 }

@@ -19,9 +19,8 @@
      misrepresented as being the original source code.
   3. This notice may not be removed or altered from any source distribution.
 */
+
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace CoreAudio
 {
@@ -29,7 +28,7 @@ namespace CoreAudio
     public enum EEndpointHardwareSupport
     {
         Volume = 0x00000001,
-        Mute   = 0x00000002,
-        Meter  = 0x00000004
+        Mute = 0x00000002,
+        Meter = 0x00000004
     }
 }

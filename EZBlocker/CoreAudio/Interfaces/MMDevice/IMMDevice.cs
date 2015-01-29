@@ -19,23 +19,26 @@
      misrepresented as being the original source code.
   3. This notice may not be removed or altered from any source distribution.
 */
+
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Runtime.InteropServices;
 
 namespace CoreAudio.Interfaces
 {
     [Guid("D666063F-1587-4E43-81F1-B948E807363F"),
-    InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+     InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
     internal interface IMMDevice
     {
         [PreserveSig]
-        int Activate(ref Guid iid, CLSCTX dwClsCtx, IntPtr pActivationParams, [Out(), MarshalAs(UnmanagedType.IUnknown)] out object ppInterface);
+        int Activate(ref Guid iid, CLSCTX dwClsCtx, IntPtr pActivationParams,
+            [Out, MarshalAs(UnmanagedType.IUnknown)] out object ppInterface);
+
         [PreserveSig]
         int OpenPropertyStore(EStgmAccess stgmAccess, out IPropertyStore propertyStore);
+
         [PreserveSig]
-        int GetId([Out(), MarshalAs(UnmanagedType.LPWStr)] out string ppstrId);
+        int GetId([Out, MarshalAs(UnmanagedType.LPWStr)] out string ppstrId);
+
         [PreserveSig]
         int GetState(out DEVICE_STATE pdwState);
     }

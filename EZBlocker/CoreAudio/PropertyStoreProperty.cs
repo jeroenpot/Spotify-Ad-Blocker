@@ -20,38 +20,23 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-using CoreAudio.Interfaces;
-
 namespace CoreAudio
 {
     public class PropertyStoreProperty
     {
-        private PROPERTYKEY _PropertyKey;
         private PropVariant _PropValue;
 
         internal PropertyStoreProperty(PROPERTYKEY key, PropVariant value)
         {
-            _PropertyKey = key;
+            Key = key;
             _PropValue = value;
         }
 
-        public PROPERTYKEY Key
-        {
-            get
-            {
-                return _PropertyKey;
-            }
-        }
+        public PROPERTYKEY Key { get; private set; }
 
         public object Value
         {
-            get
-            {
-                return _PropValue.Value;
-            }
+            get { return _PropValue.Value; }
         }
     }
 }

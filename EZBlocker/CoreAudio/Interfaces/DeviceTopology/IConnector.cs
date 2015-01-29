@@ -19,11 +19,8 @@
      misrepresented as being the original source code.
   3. This notice may not be removed or altered from any source distribution.
 */
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Runtime.InteropServices;
 
+using System.Runtime.InteropServices;
 
 namespace CoreAudio.Interfaces
 {
@@ -33,19 +30,26 @@ namespace CoreAudio.Interfaces
     {
         [PreserveSig]
         int GetType(out ConnectorType type);
+
         [PreserveSig]
         int GetDataFlow(out EDataFlow flow);
+
         [PreserveSig]
         int ConnectTo(IConnector connectTo);
+
         [PreserveSig]
         int Disconnect();
+
         [PreserveSig]
         int IsConnected(out bool connected);
+
         [PreserveSig]
         int GetConnectedTo(out IConnector connectedTo);
+
         [PreserveSig]
-        int GetConnectorIdConnectedTo([Out(), MarshalAs(UnmanagedType.LPWStr)] out string connectorId);
+        int GetConnectorIdConnectedTo([Out, MarshalAs(UnmanagedType.LPWStr)] out string connectorId);
+
         [PreserveSig]
-        int GetDeviceIdConnectedTo([Out(), MarshalAs(UnmanagedType.LPWStr)] out string deviceId);
+        int GetDeviceIdConnectedTo([Out, MarshalAs(UnmanagedType.LPWStr)] out string deviceId);
     }
 }

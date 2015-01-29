@@ -19,11 +19,9 @@
      misrepresented as being the original source code.
   3. This notice may not be removed or altered from any source distribution.
 */
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Runtime.InteropServices;
 
+using System;
+using System.Runtime.InteropServices;
 
 namespace CoreAudio.Interfaces
 {
@@ -32,29 +30,41 @@ namespace CoreAudio.Interfaces
     internal interface IPart
     {
         [PreserveSig]
-        int GetName([Out(), MarshalAs(UnmanagedType.LPWStr)] out string name);
+        int GetName([Out, MarshalAs(UnmanagedType.LPWStr)] out string name);
+
         [PreserveSig]
         int GetLocalId(out int id);
+
         [PreserveSig]
-        int GetGlobalId([Out(), MarshalAs(UnmanagedType.LPWStr)] out string globalId);
+        int GetGlobalId([Out, MarshalAs(UnmanagedType.LPWStr)] out string globalId);
+
         [PreserveSig]
         int GetPartType(out PartType partType);
+
         [PreserveSig]
         int GetSubType(out Guid subType);
+
         [PreserveSig]
         int GetControlInterfaceCount(out int count);
+
         [PreserveSig]
         int GetControlInterface(int index, out IControlInterface pInterface);
+
         [PreserveSig]
         int EnumPartsIncoming(out IPartsList parts);
+
         [PreserveSig]
         int EnumPartsOutgoing(out IPartsList parts);
+
         [PreserveSig]
         int GetTopologyObject(out IDeviceTopology topology);
+
         [PreserveSig]
-        int Activate(CLSCTX dwClsContext, ref Guid refiid, [Out(), MarshalAs(UnmanagedType.IUnknown)] out object ppvObject);
+        int Activate(CLSCTX dwClsContext, ref Guid refiid, [Out, MarshalAs(UnmanagedType.IUnknown)] out object ppvObject);
+
         [PreserveSig]
         int RegisterControlChangeCallback(ref Guid refiid, IControlChangeNotify notify);
+
         [PreserveSig]
         int UnregisterControlChangeCallback(IControlChangeNotify notify);
     }

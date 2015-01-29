@@ -19,9 +19,8 @@
      misrepresented as being the original source code.
   3. This notice may not be removed or altered from any source distribution.
 */
+
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Runtime.InteropServices;
 
 namespace CoreAudio.Interfaces
@@ -32,30 +31,43 @@ namespace CoreAudio.Interfaces
     {
         [PreserveSig]
         int GetState(out AudioSessionState state);
+
         [PreserveSig]
-        int GetDisplayName([Out(), MarshalAs(UnmanagedType.LPWStr)] out string name);
+        int GetDisplayName([Out, MarshalAs(UnmanagedType.LPWStr)] out string name);
+
         [PreserveSig]
         int SetDisplayName([MarshalAs(UnmanagedType.LPWStr)] string value, Guid EventContext);
+
         [PreserveSig]
-        int GetIconPath([Out(), MarshalAs(UnmanagedType.LPWStr)] out string Path);
+        int GetIconPath([Out, MarshalAs(UnmanagedType.LPWStr)] out string Path);
+
         [PreserveSig]
         int SetIconPath([MarshalAs(UnmanagedType.LPWStr)] string Value, Guid EventContext);
+
         [PreserveSig]
         int GetGroupingParam(out Guid GroupingParam);
+
         [PreserveSig]
         int SetGroupingParam(Guid Override, Guid Eventcontext);
+
         [PreserveSig]
         int RegisterAudioSessionNotification(IAudioSessionEvents NewNotifications);
+
         [PreserveSig]
         int UnregisterAudioSessionNotification(IAudioSessionEvents NewNotifications);
+
         [PreserveSig]
-        int GetSessionIdentifier([Out(), MarshalAs(UnmanagedType.LPWStr)] out string retVal);
+        int GetSessionIdentifier([Out, MarshalAs(UnmanagedType.LPWStr)] out string retVal);
+
         [PreserveSig]
-        int GetSessionInstanceIdentifier([Out(), MarshalAs(UnmanagedType.LPWStr)] out string retVal);
+        int GetSessionInstanceIdentifier([Out, MarshalAs(UnmanagedType.LPWStr)] out string retVal);
+
         [PreserveSig]
         int GetProcessId(out UInt32 retvVal);
+
         [PreserveSig]
         int IsSystemSoundsSession();
+
         [PreserveSig]
         int SetDuckingPreference(bool optOut);
     }

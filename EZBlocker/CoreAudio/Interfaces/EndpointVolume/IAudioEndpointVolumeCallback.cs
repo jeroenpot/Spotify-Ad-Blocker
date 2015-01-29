@@ -19,19 +19,17 @@
      misrepresented as being the original source code.
   3. This notice may not be removed or altered from any source distribution.
 */
+
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Runtime.InteropServices;
 
 namespace CoreAudio.Interfaces
 {
     [Guid("657804FA-D6AD-4496-8A60-352752AF4F89"),
      InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-    internal interface IAudioEndpointVolumeCallback 
+    internal interface IAudioEndpointVolumeCallback
     {
         [PreserveSig]
         int OnNotify(IntPtr pNotifyData);
     }
-
 }

@@ -21,32 +21,35 @@
 */
 
 using System;
-using System.Collections.Generic;
-#if (NET40) 
-using System.Linq;
-#endif
-using System.Text;
-using CoreAudio.Interfaces;
 using System.Runtime.InteropServices;
+using CoreAudio.Interfaces;
+#if (NET40)
+#endif
 
 namespace CoreAudio
 {
     public class AudioSessionManager2 : IDisposable
     {
-        private IAudioSessionManager2 _AudioSessionManager2;
-        private SessionCollection _Sessions;
-
         public delegate void SessionCreatedDelegate(object sender, IAudioSessionControl2 newSession);
-        public event SessionCreatedDelegate OnSessionCreated;
 
+        private readonly IAudioSessionManager2 _AudioSessionManager2;
         private AudioSessionNotification _AudioSessionNotification;
-        
+
         internal AudioSessionManager2(IAudioSessionManager2 realAudioSessionManager2)
         {
             _AudioSessionManager2 = realAudioSessionManager2;
 
             RefreshSessions();
         }
+
+        public SessionCollection Sessions { get; private set; }
+
+        public void Dispose()
+        {
+            UnregisterNotifications();
+        }
+
+        public event SessionCreatedDelegate OnSessionCreated;
 
         internal void FireSessionCreated(IAudioSessionControl2 newSession)
         {
@@ -59,38 +62,25 @@ namespace CoreAudio
 
             IAudioSessionEnumerator _SessionEnum;
             Marshal.ThrowExceptionForHR(_AudioSessionManager2.GetSessionEnumerator(out _SessionEnum));
-            _Sessions = new SessionCollection(_SessionEnum);
+            Sessions = new SessionCollection(_SessionEnum);
 
             _AudioSessionNotification = new AudioSessionNotification(this);
             Marshal.ThrowExceptionForHR(_AudioSessionManager2.RegisterSessionNotification(_AudioSessionNotification));
         }
 
-        public SessionCollection Sessions
-        {
-            get
-            {
-                return _Sessions;
-            }
-        }
-
         private void UnregisterNotifications()
         {
-            if (_Sessions != null)
-                _Sessions = null;
+            if (Sessions != null)
+                Sessions = null;
 
             if (_AudioSessionNotification != null)
-                Marshal.ThrowExceptionForHR(_AudioSessionManager2.UnregisterSessionNotification(_AudioSessionNotification));
-        }
-
-        public void Dispose()
-        {
-            UnregisterNotifications();
+                Marshal.ThrowExceptionForHR(
+                    _AudioSessionManager2.UnregisterSessionNotification(_AudioSessionNotification));
         }
 
         ~AudioSessionManager2()
         {
             Dispose();
         }
-
     }
 }

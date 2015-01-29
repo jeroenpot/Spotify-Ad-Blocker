@@ -23,20 +23,21 @@
 /* Created by Xavier Flix (2010/11/18) */
 
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Runtime.InteropServices;
 
 namespace CoreAudio.Interfaces
 {
     [Guid("C8ADBD64-E71E-48a0-A4DE-185C395CD317"),
-    InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-    interface IAudioCaptureClient
+     InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    internal interface IAudioCaptureClient
     {
         [PreserveSig]
-        AUDCLNT_RETURNFLAGS GetBuffer(out byte[] ppData, out _AUDCLNT_BUFFERFLAGS pNumFramesToRead, UInt64 pu64DevicePosition, UInt64 pu64QPCPosition);
+        AUDCLNT_RETURNFLAGS GetBuffer(out byte[] ppData, out _AUDCLNT_BUFFERFLAGS pNumFramesToRead,
+            UInt64 pu64DevicePosition, UInt64 pu64QPCPosition);
+
         [PreserveSig]
         AUDCLNT_RETURNFLAGS ReleaseBuffer(UInt32 NumFramesRead);
+
         [PreserveSig]
         AUDCLNT_RETURNFLAGS GetNextPacketSize(out UInt32 pNumFramesInNextPacket);
     }

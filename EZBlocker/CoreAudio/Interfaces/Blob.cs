@@ -19,18 +19,15 @@
      misrepresented as being the original source code.
   3. This notice may not be removed or altered from any source distribution.
 */
+
 using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Runtime.InteropServices;
 
 namespace CoreAudio.Interfaces
 {
     internal struct Blob
     {
-         public int Length;
-         public IntPtr Data;
-
+        public IntPtr Data;
+        public int Length;
         //Code Should Compile at warning level4 without any warnings, 
         //However this struct will give us Warning CS0649: Field [Fieldname] 
         //is never assigned to, and will always have its default value

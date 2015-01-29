@@ -23,38 +23,49 @@
 /* Created by Xavier Flix (2010/11/18) */
 
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Runtime.InteropServices;
 
 namespace CoreAudio.Interfaces
 {
     [Guid("1CB9AD4C-DBFA-4c32-B178-C2F568A703B2"),
-    InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-    interface IAudioClient 
+     InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    internal interface IAudioClient
     {
         [PreserveSig]
-        AUDCLNT_RETURNFLAGS Initialize(AUDCLNT_SHAREMODE ShareMode, AUDCLNT_STREAMFLAGS StreamFlags, long hnsBufferDuration, long hnsPeriodicity, WAVEFORMATEX pFormat, Guid AudioSessionGuid);
+        AUDCLNT_RETURNFLAGS Initialize(AUDCLNT_SHAREMODE ShareMode, AUDCLNT_STREAMFLAGS StreamFlags,
+            long hnsBufferDuration, long hnsPeriodicity, WAVEFORMATEX pFormat, Guid AudioSessionGuid);
+
         [PreserveSig]
         AUDCLNT_RETURNFLAGS GetBufferSize(out UInt32 pNumBufferFrames);
+
         [PreserveSig]
         AUDCLNT_RETURNFLAGS GetStreamLatency(out long phnsLatency);
+
         [PreserveSig]
         AUDCLNT_RETURNFLAGS GetCurrentPadding(out long pNumPaddingFrames);
+
         [PreserveSig]
-        AUDCLNT_RETURNFLAGS IsFormatSupported(AUDCLNT_SHAREMODE ShareMode, WAVEFORMATEX pFormat, out WAVEFORMATEX ppClosestMatch);
+        AUDCLNT_RETURNFLAGS IsFormatSupported(AUDCLNT_SHAREMODE ShareMode, WAVEFORMATEX pFormat,
+            out WAVEFORMATEX ppClosestMatch);
+
         [PreserveSig]
         AUDCLNT_RETURNFLAGS GetMixFormat(out WAVEFORMATEX ppDeviceFormat);
+
         [PreserveSig]
         AUDCLNT_RETURNFLAGS GetDevicePeriod(out long phnsDefaultDevicePeriod, out long phnsMinimumDevicePeriod);
+
         [PreserveSig]
         AUDCLNT_RETURNFLAGS Start();
+
         [PreserveSig]
         AUDCLNT_RETURNFLAGS Stop();
+
         [PreserveSig]
         AUDCLNT_RETURNFLAGS Reset();
+
         [PreserveSig]
         AUDCLNT_RETURNFLAGS SetEventHandle(IntPtr eventHandle);
+
         [PreserveSig]
         AUDCLNT_RETURNFLAGS GetService(ref Guid riid, [Out, MarshalAs(UnmanagedType.IUnknown)] out object ppv);
     }

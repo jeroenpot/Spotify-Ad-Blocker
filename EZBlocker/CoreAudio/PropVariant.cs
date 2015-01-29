@@ -21,45 +21,43 @@
 */
 
 using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Runtime.InteropServices.ComTypes;
 using System.Runtime.InteropServices;
 using CoreAudio.Interfaces;
+using FILETIME = System.Runtime.InteropServices.ComTypes.FILETIME;
 
 namespace CoreAudio
 {
     [StructLayout(LayoutKind.Explicit)]
     public struct PropVariant
     {
-        [FieldOffset(0)] short vt;
-        [FieldOffset(2)] short wReserved1;
-        [FieldOffset(4)] short wReserved2;
-        [FieldOffset(6)] short wReserved3;
-        [FieldOffset(8)] sbyte cVal;
-        [FieldOffset(8)] byte bVal;
-        [FieldOffset(8)] short iVal;
-        [FieldOffset(8)] ushort uiVal;
-        [FieldOffset(8)] int lVal;
-        [FieldOffset(8)] uint ulVal;
-        [FieldOffset(8)] long hVal;
-        [FieldOffset(8)] ulong uhVal;
-        [FieldOffset(8)] float fltVal;
-        [FieldOffset(8)] double dblVal;
-        [FieldOffset(8)] Blob blobVal;
-        [FieldOffset(8)] DateTime date;
-        [FieldOffset(8)] bool boolVal;
-        [FieldOffset(8)] int scode;
-        [FieldOffset(8)] System.Runtime.InteropServices.ComTypes.FILETIME filetime;
-        [FieldOffset(8)] IntPtr everything_else;
+        [FieldOffset(0)] private readonly short vt;
+        [FieldOffset(2)] private readonly short wReserved1;
+        [FieldOffset(4)] private readonly short wReserved2;
+        [FieldOffset(6)] private readonly short wReserved3;
+        [FieldOffset(8)] private readonly sbyte cVal;
+        [FieldOffset(8)] private readonly byte bVal;
+        [FieldOffset(8)] private readonly short iVal;
+        [FieldOffset(8)] private readonly ushort uiVal;
+        [FieldOffset(8)] private readonly int lVal;
+        [FieldOffset(8)] private readonly uint ulVal;
+        [FieldOffset(8)] private readonly long hVal;
+        [FieldOffset(8)] private readonly ulong uhVal;
+        [FieldOffset(8)] private readonly float fltVal;
+        [FieldOffset(8)] private readonly double dblVal;
+        [FieldOffset(8)] private Blob blobVal;
+        [FieldOffset(8)] private readonly DateTime date;
+        [FieldOffset(8)] private readonly bool boolVal;
+        [FieldOffset(8)] private readonly int scode;
+        [FieldOffset(8)] private readonly FILETIME filetime;
+        [FieldOffset(8)] private readonly IntPtr everything_else;
 
         //I'm sure there is a more efficient way to do this but this works ..for now..
         internal byte[] GetBlob()
         {
-            byte[] Result = new byte[blobVal.Length];
-            for (int i = 0; i < blobVal.Length; i++)
+            var Result = new byte[blobVal.Length];
+            for (var i = 0; i < blobVal.Length; i++)
             {
-                Result[i] = Marshal.ReadByte((IntPtr) ((long)(blobVal.Data) + i));
+                Result[i] = Marshal.ReadByte((IntPtr) ((long) (blobVal.Data) + i));
             }
             return Result;
         }
@@ -68,7 +66,7 @@ namespace CoreAudio
         {
             get
             {
-                VarEnum ve = (VarEnum)vt;
+                var ve = (VarEnum) vt;
                 switch (ve)
                 {
                     case VarEnum.VT_I1:
@@ -88,9 +86,8 @@ namespace CoreAudio
                     case VarEnum.VT_BLOB:
                         return GetBlob();
                 }
-                return "FIXME Type = " + ve.ToString();
+                return "FIXME Type = " + ve;
             }
         }
-        
-    } 
+    }
 }

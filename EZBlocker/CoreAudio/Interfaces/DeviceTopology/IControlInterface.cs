@@ -19,12 +19,10 @@
      misrepresented as being the original source code.
   3. This notice may not be removed or altered from any source distribution.
 */
+
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Runtime.InteropServices;
 
- 
 namespace CoreAudio.Interfaces
 {
     [Guid("45d37c3f-5140-444a-ae24-400789f3cbf3"),
@@ -32,7 +30,8 @@ namespace CoreAudio.Interfaces
     internal interface IControlInterface
     {
         [PreserveSig]
-        int GetName([Out(), MarshalAs(UnmanagedType.LPWStr)] out string name);
+        int GetName([Out, MarshalAs(UnmanagedType.LPWStr)] out string name);
+
         [PreserveSig]
         int GetID(out Guid id);
     }

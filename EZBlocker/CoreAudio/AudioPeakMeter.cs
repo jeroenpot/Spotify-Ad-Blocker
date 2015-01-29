@@ -19,17 +19,15 @@
      misrepresented as being the original source code.
   3. This notice may not be removed or altered from any source distribution.
 */
-using System;
-using System.Collections.Generic;
-using System.Text;
-using CoreAudio.Interfaces;
+
 using System.Runtime.InteropServices;
+using CoreAudio.Interfaces;
 
 namespace CoreAudio
 {
     public class AudioPeakMeter
     {
-        private IAudioPeakMeter _AudioPeakMeter;
+        private readonly IAudioPeakMeter _AudioPeakMeter;
 
         internal AudioPeakMeter(IAudioPeakMeter audioPeakMeter)
         {
@@ -49,7 +47,7 @@ namespace CoreAudio
         public float GetLevel(int channel)
         {
             float level = 0;
-            Marshal.ThrowExceptionForHR(_AudioPeakMeter.GetLevel((uint)channel, out level));
+            Marshal.ThrowExceptionForHR(_AudioPeakMeter.GetLevel((uint) channel, out level));
             return level;
         }
     }

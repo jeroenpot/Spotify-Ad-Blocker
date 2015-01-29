@@ -1,18 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace EZBlocker
 {
     public class Info
     {
-        public int num_results;
         public int limit;
+        public int num_results;
         public int offset;
+        public int page;
         public string query;
         public string type;
-        public int page;
     }
 
     public class Artist
@@ -24,7 +21,7 @@ namespace EZBlocker
 
     public class SpotifyAnswer
     {
-        public Info info;
         public IList<Artist> artists;
+        public Info info;
     }
 }

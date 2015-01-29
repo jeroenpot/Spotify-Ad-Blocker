@@ -19,31 +19,48 @@
      misrepresented as being the original source code.
   3. This notice may not be removed or altered from any source distribution.
 */
-using System;
-using System.Collections.Generic;
-using System.Text;
-using CoreAudio.Interfaces;
+
 using System.Runtime.InteropServices;
+using CoreAudio.Interfaces;
 
 namespace CoreAudio
 {
     public class DeviceTopology
     {
-        private IDeviceTopology _DeviceTopology;
+        private readonly IDeviceTopology _DeviceTopology;
 
         internal DeviceTopology(IDeviceTopology realInterface)
         {
             _DeviceTopology = realInterface;
-            
         }
 
         public int GetConnectorCount
         {
             get
             {
-                int count = 0;
+                var count = 0;
                 Marshal.ThrowExceptionForHR(_DeviceTopology.GetConnectorCount(out count));
                 return count;
+            }
+        }
+
+        public int GetSubunitCount
+        {
+            get
+            {
+                var count = 0;
+                Marshal.ThrowExceptionForHR(_DeviceTopology.GetSubunitCount(out count));
+                return count;
+            }
+        }
+
+        public string GetDeviceId
+        {
+            get
+            {
+                string id;
+                Marshal.ThrowExceptionForHR(_DeviceTopology.GetDeviceId(out id));
+                return id;
             }
         }
 
@@ -52,16 +69,6 @@ namespace CoreAudio
             IConnector connector;
             Marshal.ThrowExceptionForHR(_DeviceTopology.GetConnector(index, out connector));
             return new Connector(connector);
-        }
-
-        public int GetSubunitCount
-        {
-            get
-            {
-                int count = 0;
-                Marshal.ThrowExceptionForHR(_DeviceTopology.GetSubunitCount(out count));
-                return count;
-            }
         }
 
         public Subunit GetSubunit(int index)
@@ -78,20 +85,11 @@ namespace CoreAudio
             return new Part(part);
         }
 
-        public string GetDeviceId
-        {
-            get
-            {
-                string id;
-                Marshal.ThrowExceptionForHR(_DeviceTopology.GetDeviceId(out id));
-                return id;
-            }
-        }
-
         public PartsList GetSignalPath(Part from, Part to, bool rejectMixedPaths)
         {
             IPartsList partList;
-            Marshal.ThrowExceptionForHR(_DeviceTopology.GetSignalPath((IPart)from, (IPart)to, rejectMixedPaths, out partList));
+            Marshal.ThrowExceptionForHR(_DeviceTopology.GetSignalPath((IPart) from, (IPart) to, rejectMixedPaths,
+                out partList));
             return new PartsList(partList);
         }
     }

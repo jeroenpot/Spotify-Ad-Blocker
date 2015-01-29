@@ -19,16 +19,14 @@
      misrepresented as being the original source code.
   3. This notice may not be removed or altered from any source distribution.
 */
-using System;
-using System.Collections.Generic;
-using System.Text;
+
 using System.Runtime.InteropServices;
 
- 
 namespace CoreAudio.Interfaces
 {
     [Guid("7FB7B48F-531D-44A2-BCB3-5AD5A134B3DC"),
      InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-    internal interface IAudioVolumeLevel : IPerChannelDbLevel {       
+    internal interface IAudioVolumeLevel : IPerChannelDbLevel
+    {
     }
 }

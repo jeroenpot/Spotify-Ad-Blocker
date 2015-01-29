@@ -19,19 +19,16 @@
      misrepresented as being the original source code.
   3. This notice may not be removed or altered from any source distribution.
 */
-using System;
-using System.Collections.Generic;
-#if (NET40) 
-using System.Linq;
+
+#if (NET40)
 #endif
-using System.Text;
 
 namespace CoreAudio
 {
     public enum AudioSessionState
     {
-         AudioSessionStateInactive = 0,
-         AudioSessionStateActive = 1,
-         AudioSessionStateExpired = 2
+        AudioSessionStateInactive = 0,
+        AudioSessionStateActive = 1,
+        AudioSessionStateExpired = 2
     }
 }

@@ -19,17 +19,14 @@
      misrepresented as being the original source code.
   3. This notice may not be removed or altered from any source distribution.
 */
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace CoreAudio
 {
     public enum ERole
     {
-        eConsole =0,
-        eMultimedia =1,
-        eCommunications=2,
-        ERole_enum_count=3
+        eConsole = 0,
+        eMultimedia = 1,
+        eCommunications = 2,
+        ERole_enum_count = 3
     }
 }

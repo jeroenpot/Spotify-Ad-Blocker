@@ -19,12 +19,10 @@
      misrepresented as being the original source code.
   3. This notice may not be removed or altered from any source distribution.
 */
+
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Runtime.InteropServices;
 
- 
 namespace CoreAudio.Interfaces
 {
     [Guid("C2F8E001-F205-4BC9-99BC-C13B1E048CCB"),
@@ -33,14 +31,19 @@ namespace CoreAudio.Interfaces
     {
         [PreserveSig]
         int GetChannelCount(out uint count);
+
         [PreserveSig]
         int GetLevelRange(uint channel, out float minLevel, out float maxLevel, out float stepping);
+
         [PreserveSig]
-        int GetLevel(uint channel, out float level);        
+        int GetLevel(uint channel, out float level);
+
         [PreserveSig]
         int SetLevel(uint channel, float level, out Guid eventContext);
+
         [PreserveSig]
         int SetLevelUniform(float level, out Guid eventContext);
+
         [PreserveSig]
         int SetLevelAllChannels(float[] levelsDB, ulong channels, Guid eventContext);
     }

@@ -19,19 +19,16 @@
      misrepresented as being the original source code.
   3. This notice may not be removed or altered from any source distribution.
 */
-using System;
-using System.Collections.Generic;
-using System.Text;
+
 using System.Runtime.InteropServices;
 
- 
 namespace CoreAudio.Interfaces
 {
     [Guid("DD79923C-0599-45e0-B8B6-C8DF7DB6E796"),
      InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
     internal interface IAudioPeakMeter
     {
-         int GetChannelCount(out int pcChannels);
-         int GetLevel(uint channel, out float level);
+        int GetChannelCount(out int pcChannels);
+        int GetLevel(uint channel, out float level);
     }
 }

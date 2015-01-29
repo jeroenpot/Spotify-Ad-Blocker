@@ -19,18 +19,26 @@
      misrepresented as being the original source code.
   3. This notice may not be removed or altered from any source distribution.
 */
+
 using System;
-using System.Collections.Generic;
-using System.Text;
-using CoreAudio.Interfaces;
 using System.Runtime.InteropServices;
+using CoreAudio.Interfaces;
 
 namespace CoreAudio
 {
     public class MMDevice
     {
+        #region Constructor
+
+        internal MMDevice(IMMDevice realDevice)
+        {
+            ReadDevice = realDevice;
+        }
+
+        #endregion
+
         #region Variables
-        private IMMDevice _RealDevice;
+
         private PropertyStore _PropertyStore;
         private AudioMeterInformation _AudioMeterInformation;
         private AudioEndpointVolume _AudioEndpointVolume;
@@ -40,38 +48,43 @@ namespace CoreAudio
         #endregion
 
         #region Init
+
         private void GetPropertyInformation()
         {
             IPropertyStore propstore;
-            Marshal.ThrowExceptionForHR(_RealDevice.OpenPropertyStore(EStgmAccess.STGM_READ, out propstore));
+            Marshal.ThrowExceptionForHR(ReadDevice.OpenPropertyStore(EStgmAccess.STGM_READ, out propstore));
             _PropertyStore = new PropertyStore(propstore);
         }
 
         private void GetAudioSessionManager2()
         {
             object result;
-            Marshal.ThrowExceptionForHR(_RealDevice.Activate(ref IIDs.IID_IAudioSessionManager2, CLSCTX.ALL, IntPtr.Zero, out result));
+            Marshal.ThrowExceptionForHR(ReadDevice.Activate(ref IIDs.IID_IAudioSessionManager2, CLSCTX.ALL, IntPtr.Zero,
+                out result));
             _AudioSessionManager2 = new AudioSessionManager2(result as IAudioSessionManager2);
         }
 
         private void GetAudioMeterInformation()
         {
             object result;
-            Marshal.ThrowExceptionForHR(_RealDevice.Activate(ref IIDs.IID_IAudioMeterInformation, CLSCTX.ALL, IntPtr.Zero, out result));
-            _AudioMeterInformation = new AudioMeterInformation( result as IAudioMeterInformation);
+            Marshal.ThrowExceptionForHR(ReadDevice.Activate(ref IIDs.IID_IAudioMeterInformation, CLSCTX.ALL, IntPtr.Zero,
+                out result));
+            _AudioMeterInformation = new AudioMeterInformation(result as IAudioMeterInformation);
         }
 
         private void GetAudioEndpointVolume()
         {
             object result;
-            Marshal.ThrowExceptionForHR(_RealDevice.Activate(ref IIDs.IID_IAudioEndpointVolume, CLSCTX.ALL, IntPtr.Zero, out result));
+            Marshal.ThrowExceptionForHR(ReadDevice.Activate(ref IIDs.IID_IAudioEndpointVolume, CLSCTX.ALL, IntPtr.Zero,
+                out result));
             _AudioEndpointVolume = new AudioEndpointVolume(result as IAudioEndpointVolume);
         }
 
         private void GetDeviceTopology()
         {
             object result;
-            Marshal.ThrowExceptionForHR(_RealDevice.Activate(ref IIDs.IID_IDeviceTopology, CLSCTX.ALL, IntPtr.Zero, out result));
+            Marshal.ThrowExceptionForHR(ReadDevice.Activate(ref IIDs.IID_IDeviceTopology, CLSCTX.ALL, IntPtr.Zero,
+                out result));
             _DeviceTopology = new DeviceTopology(result as IDeviceTopology);
         }
 
@@ -129,11 +142,11 @@ namespace CoreAudio
             get
             {
                 if (_PropertyStore == null) GetPropertyInformation();
-                if(_PropertyStore.Contains(PKEY.PKEY_DeviceInterface_FriendlyName)) {
-                    return (string)_PropertyStore[PKEY.PKEY_DeviceInterface_FriendlyName].Value;
-                } else {
-                    return "Unknown";
+                if (_PropertyStore.Contains(PKEY.PKEY_DeviceInterface_FriendlyName))
+                {
+                    return (string) _PropertyStore[PKEY.PKEY_DeviceInterface_FriendlyName].Value;
                 }
+                return "Unknown";
             }
         }
 
@@ -143,7 +156,7 @@ namespace CoreAudio
             get
             {
                 string Result;
-                Marshal.ThrowExceptionForHR(_RealDevice.GetId(out Result));
+                Marshal.ThrowExceptionForHR(ReadDevice.GetId(out Result));
                 return Result;
             }
         }
@@ -153,7 +166,7 @@ namespace CoreAudio
             get
             {
                 EDataFlow Result;
-                IMMEndpoint ep =  _RealDevice as IMMEndpoint ;
+                var ep = ReadDevice as IMMEndpoint;
                 ep.GetDataFlow(out Result);
                 return Result;
             }
@@ -164,31 +177,21 @@ namespace CoreAudio
             get
             {
                 DEVICE_STATE Result;
-                Marshal.ThrowExceptionForHR(_RealDevice.GetState(out Result));
+                Marshal.ThrowExceptionForHR(ReadDevice.GetState(out Result));
                 return Result;
-
             }
         }
 
-        internal IMMDevice ReadDevice
-        {
-            get
-            {
-                return _RealDevice;
-            }
-        }
+        internal IMMDevice ReadDevice { get; private set; }
 
         public bool Selected
         {
-            get
-            {
-                return (new MMDeviceEnumerator()).GetDefaultAudioEndpoint(DataFlow, ERole.eMultimedia).ID == ID;
-            }
+            get { return (new MMDeviceEnumerator()).GetDefaultAudioEndpoint(DataFlow, ERole.eMultimedia).ID == ID; }
             set
             {
-                if (value == true)
+                if (value)
                 {
-                    (new CPolicyConfigVistaClient()).SetDefaultDevie(this.ID);
+                    (new CPolicyConfigVistaClient()).SetDefaultDevie(ID);
                     //if(System.Environment.OSVersion.Version.Major==6 && System.Environment.OSVersion.Version.Minor==0)
                     //    (new CPolicyConfigVistaClient()).SetDefaultDevie(this.ID);
                     //else
@@ -198,13 +201,5 @@ namespace CoreAudio
         }
 
         #endregion
-
-        #region Constructor
-        internal MMDevice(IMMDevice realDevice)
-        {
-            _RealDevice = realDevice;
-        }
-        #endregion
-
     }
 }

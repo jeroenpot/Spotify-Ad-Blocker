@@ -20,9 +20,6 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Runtime.InteropServices;
 
 namespace CoreAudio.Interfaces
@@ -30,12 +27,12 @@ namespace CoreAudio.Interfaces
     [StructLayout(LayoutKind.Sequential)]
     internal struct WAVEFORMATEX
     {
-        ushort wFormatTag;		// format type
-        ushort nChannels;		// number of channels (i.e. mono, stereo...)
-        uint nSamplesPerSec;	// sample rate
-        uint nAvgBytesPerSec;	// for buffer estimation
-        ushort nBlockAlign;	    // block size of data
-        ushort wBitsPerSample;	// number of bits per sample of mono data
-        ushort cbSize;			// the count in bytes of
+        private readonly ushort wFormatTag; // format type
+        private readonly ushort nChannels; // number of channels (i.e. mono, stereo...)
+        private readonly uint nSamplesPerSec; // sample rate
+        private readonly uint nAvgBytesPerSec; // for buffer estimation
+        private readonly ushort nBlockAlign; // block size of data
+        private readonly ushort wBitsPerSample; // number of bits per sample of mono data
+        private readonly ushort cbSize; // the count in bytes of
     }
 }

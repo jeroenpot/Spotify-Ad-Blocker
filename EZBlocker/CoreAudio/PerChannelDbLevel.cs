@@ -19,55 +19,44 @@
      misrepresented as being the original source code.
   3. This notice may not be removed or altered from any source distribution.
 */
+
 using System;
-using System.Collections.Generic;
-using System.Text;
-using CoreAudio.Interfaces;
 using System.Runtime.InteropServices;
+using System.Threading;
+using CoreAudio.Interfaces;
 
 namespace CoreAudio
 {
     public class PerChannelDbLevel
     {
-        public struct LevelRange
-        {
-            public float minLevel;
-            public float maxLevel;
-            public float stepping;
-
-            public LevelRange(float minLevel, float maxLevel, float stepping)
-            {
-                this.minLevel = minLevel;
-                this.maxLevel = maxLevel;
-                this.stepping = stepping;
-            }            
-        }
-
-        private IPerChannelDbLevel _PerChannelDbLevel;
+        private readonly IPerChannelDbLevel _PerChannelDbLevel;
 
         internal PerChannelDbLevel(IPerChannelDbLevel perChannelDbLevel)
         {
             _PerChannelDbLevel = perChannelDbLevel;
         }
-        
+
         public int GetChannelCount
         {
             get
             {
                 uint count;
                 Marshal.ThrowExceptionForHR(_PerChannelDbLevel.GetChannelCount(out count));
-                return (int)count;
+                return (int) count;
             }
         }
 
         public float GetLevel(int channel)
         {
-            System.Threading.Thread.Sleep(5);
+            Thread.Sleep(5);
             float level = 0;
-            try {
-                Marshal.ThrowExceptionForHR(_PerChannelDbLevel.GetLevel((uint)channel, out level));
-            } catch(Exception) {
-                System.Threading.Thread.Sleep(100);
+            try
+            {
+                Marshal.ThrowExceptionForHR(_PerChannelDbLevel.GetLevel((uint) channel, out level));
+            }
+            catch (Exception)
+            {
+                Thread.Sleep(100);
             }
             return level;
         }
@@ -77,11 +66,15 @@ namespace CoreAudio
             float minLevel = 0;
             float maxLevel = 0;
             float stepping = 0;
-            System.Threading.Thread.Sleep(5);
-            try {
-                Marshal.ThrowExceptionForHR(_PerChannelDbLevel.GetLevelRange((uint)channel, out minLevel, out maxLevel, out stepping));
-            } catch(Exception) {
-                System.Threading.Thread.Sleep(100);
+            Thread.Sleep(5);
+            try
+            {
+                Marshal.ThrowExceptionForHR(_PerChannelDbLevel.GetLevelRange((uint) channel, out minLevel, out maxLevel,
+                    out stepping));
+            }
+            catch (Exception)
+            {
+                Thread.Sleep(100);
             }
             return new LevelRange(minLevel, maxLevel, stepping);
         }
@@ -89,18 +82,35 @@ namespace CoreAudio
         public void SetLevel(int channel, float level)
         {
             Guid eventContext;
-            Marshal.ThrowExceptionForHR(_PerChannelDbLevel.SetLevel((uint)channel, level, out eventContext));
+            Marshal.ThrowExceptionForHR(_PerChannelDbLevel.SetLevel((uint) channel, level, out eventContext));
         }
 
         public void SetLevelUniform(float level)
         {
             Guid eventContext;
-            System.Threading.Thread.Sleep(5);
-            try {
+            Thread.Sleep(5);
+            try
+            {
                 Marshal.ThrowExceptionForHR(_PerChannelDbLevel.SetLevelUniform(level, out eventContext));
-            } catch(Exception) {
-                System.Threading.Thread.Sleep(100);
-            } 
+            }
+            catch (Exception)
+            {
+                Thread.Sleep(100);
+            }
+        }
+
+        public struct LevelRange
+        {
+            public float maxLevel;
+            public float minLevel;
+            public float stepping;
+
+            public LevelRange(float minLevel, float maxLevel, float stepping)
+            {
+                this.minLevel = minLevel;
+                this.maxLevel = maxLevel;
+                this.stepping = stepping;
+            }
         }
     }
 }

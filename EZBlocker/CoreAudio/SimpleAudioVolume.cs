@@ -21,19 +21,17 @@
 */
 
 using System;
-using System.Collections.Generic;
-#if (NET40) 
-using System.Linq;
-#endif
-using System.Text;
-using CoreAudio.Interfaces;
 using System.Runtime.InteropServices;
+using CoreAudio.Interfaces;
+#if (NET40)
+#endif
 
 namespace CoreAudio
 {
     public class SimpleAudioVolume
     {
-        ISimpleAudioVolume _SimpleAudioVolume;
+        private readonly ISimpleAudioVolume _SimpleAudioVolume;
+
         internal SimpleAudioVolume(ISimpleAudioVolume realSimpleVolume)
         {
             _SimpleAudioVolume = realSimpleVolume;
@@ -49,7 +47,7 @@ namespace CoreAudio
             }
             set
             {
-                Guid Empty = Guid.Empty;
+                var Empty = Guid.Empty;
                 Marshal.ThrowExceptionForHR(_SimpleAudioVolume.SetMasterVolume(value, ref Empty));
             }
         }
@@ -64,7 +62,7 @@ namespace CoreAudio
             }
             set
             {
-                Guid Empty = Guid.Empty;
+                var Empty = Guid.Empty;
                 Marshal.ThrowExceptionForHR(_SimpleAudioVolume.SetMute(value, ref Empty));
             }
         }

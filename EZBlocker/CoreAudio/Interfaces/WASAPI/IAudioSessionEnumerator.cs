@@ -21,11 +21,11 @@
 */
 
 using System.Runtime.InteropServices;
-using System;
+
 namespace CoreAudio.Interfaces
 {
     [Guid("E2F5BB11-0570-40CA-ACDD-3AA01277DEE8"),
-    InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+     InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
     internal interface IAudioSessionEnumerator
     {
         int GetCount(out int SessionCount);

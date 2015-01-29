@@ -21,16 +21,15 @@
 */
 
 using System;
-using System.Collections.Generic;
-using System.Text;
-using CoreAudio.Interfaces;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
+using CoreAudio.Interfaces;
 
 namespace CoreAudio
 {
     internal class ControlChangeNotify : IControlChangeNotify, IDisposable
     {
-        private Part _Parent;
+        private readonly Part _Parent;
         private GCHandle rcwHandle;
 
         internal ControlChangeNotify(Part parent)
@@ -47,7 +46,7 @@ namespace CoreAudio
         [PreserveSig]
         public int OnNotify(UInt32 dwSenderProcessId, ref Guid pguidEventContext)
         {
-            if(System.Diagnostics.Process.GetCurrentProcess().Id != dwSenderProcessId)
+            if (Process.GetCurrentProcess().Id != dwSenderProcessId)
                 _Parent.FireNotification(dwSenderProcessId, ref pguidEventContext);
             return 0;
         }
@@ -56,7 +55,7 @@ namespace CoreAudio
 
         public void Dispose()
         {
-            if(rcwHandle.IsAllocated) rcwHandle.Free();
+            if (rcwHandle.IsAllocated) rcwHandle.Free();
         }
 
         #endregion

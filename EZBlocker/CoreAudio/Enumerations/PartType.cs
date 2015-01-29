@@ -19,15 +19,12 @@
      misrepresented as being the original source code.
   3. This notice may not be removed or altered from any source distribution.
 */
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace CoreAudio
 {
     public enum PartType
     {
         Connector = 0,
-        Subunit = (Connector + 1) 
+        Subunit = (Connector + 1)
     }
 }

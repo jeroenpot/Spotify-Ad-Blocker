@@ -19,65 +19,26 @@
      misrepresented as being the original source code.
   3. This notice may not be removed or altered from any source distribution.
 */
+
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace CoreAudio
 {
     public class AudioVolumeNotificationData
     {
-        private Guid _EventContext;
-        private bool _Muted;
-        private float _MasterVolume;
-        private int _Channels;
-        private float[] _ChannelVolume;
-
-        public Guid EventContext
-        {
-            get
-            {
-                return _EventContext;
-            }
-        }
-
-        public bool Muted
-        {
-            get
-            {
-                return _Muted;
-            }
-        }
-
-        public float MasterVolume
-        {
-            get
-            {
-                return _MasterVolume;
-            }
-        }
-        public int Channels
-        {
-            get
-            {
-                return _Channels;
-            }
-        }
-
-        public float[] ChannelVolume
-        {
-            get
-            {
-                return _ChannelVolume;
-            }
-        }
         public AudioVolumeNotificationData(Guid eventContext, bool muted, float masterVolume, float[] channelVolume)
         {
-            _EventContext = eventContext;
-            _Muted = muted;
-            _MasterVolume = masterVolume;
-            _Channels = channelVolume.Length;
-            _ChannelVolume = channelVolume;
+            EventContext = eventContext;
+            Muted = muted;
+            MasterVolume = masterVolume;
+            Channels = channelVolume.Length;
+            ChannelVolume = channelVolume;
         }
+
+        public Guid EventContext { get; private set; }
+        public bool Muted { get; private set; }
+        public float MasterVolume { get; private set; }
+        public int Channels { get; private set; }
+        public float[] ChannelVolume { get; private set; }
     }
 }

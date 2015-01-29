@@ -19,16 +19,13 @@
      misrepresented as being the original source code.
   3. This notice may not be removed or altered from any source distribution.
 */
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace CoreAudio.Interfaces
 {
     internal enum EStgmAccess
     {
-        STGM_READ      = 0x00000000,
-        STGM_WRITE     = 0x00000001,
+        STGM_READ = 0x00000000,
+        STGM_WRITE = 0x00000001,
         STGM_READWRITE = 0x00000002
     }
 }

@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace EZBlocker
+﻿namespace EZBlocker
 {
-    class CSRF
+    internal class CSRF
     {
         public string token;
     }

@@ -19,11 +19,8 @@
      misrepresented as being the original source code.
   3. This notice may not be removed or altered from any source distribution.
 */
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Runtime.InteropServices;
 
+using System.Runtime.InteropServices;
 
 namespace CoreAudio.Interfaces
 {
@@ -33,16 +30,22 @@ namespace CoreAudio.Interfaces
     {
         [PreserveSig]
         int GetConnectorCount(out int count);
+
         [PreserveSig]
         int GetConnector(int index, out IConnector connector);
+
         [PreserveSig]
         int GetSubunitCount(out int count);
+
         [PreserveSig]
         int GetSubunit(int index, out ISubunit subunit);
+
         [PreserveSig]
         int GetPartById(int id, out IPart part);
+
         [PreserveSig]
-        int GetDeviceId([Out(), MarshalAs(UnmanagedType.LPWStr)] out string deviceId);
+        int GetDeviceId([Out, MarshalAs(UnmanagedType.LPWStr)] out string deviceId);
+
         [PreserveSig]
         int GetSignalPath(IPart partFrom, IPart partTo, bool rejectMixedPaths, out IPartsList parts);
     }
