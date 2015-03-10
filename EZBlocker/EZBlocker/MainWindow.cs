@@ -49,18 +49,7 @@ namespace EZBlocker
         private const string website = @"http://www.ericzhang.me/projects/spotify-ad-blocker-ezblocker/";
 
         // Google Analytics stuff
-        private Random rnd;
-        private long starttime, lasttime;
         private string visitorId;
-        private int runs = 1;
-        private const string domainHash = "69214020";
-        private const string source = "EZBlocker";
-        private string medium = Assembly.GetExecutingAssembly().GetName().Version.ToString();
-        private const string sessionNumber = "1";
-        private const string campaignNumber = "1";
-        private string language = Thread.CurrentThread.CurrentCulture.Name;
-        private string screenRes = Screen.PrimaryScreen.Bounds.Width + "x" + Screen.PrimaryScreen.Bounds.Height;
-        private const string trackingId = "UA-42480515-3";
 
         public MainWindow()
         {
@@ -452,17 +441,11 @@ namespace EZBlocker
             // Set up UI
             SpotifyMuteCheckbox.Checked = Properties.Settings.Default.SpotifyMute;
             BlockBannersCheckbox.Checked = File.ReadAllText(hostsPath).Contains("doubleclick.net");
-            
-            // Google Analytics
-            rnd = new Random(Environment.TickCount);
-            starttime = DateTime.Now.Ticks;
-            if (String.IsNullOrEmpty(Properties.Settings.Default.UID))
-            {
-                Properties.Settings.Default.UID = rnd.Next(100000000, 999999999).ToString(); // Build unique visitorId;
+            if (String.IsNullOrEmpty(Properties.Settings.Default.UID)) {
+                Properties.Settings.Default.UID = new Random().Next(100000000, 999999999).ToString(); // Build unique visitorId;
                 Properties.Settings.Default.Save();
             }
             visitorId = Properties.Settings.Default.UID;
-            
             Mute(0);
 
             MainTimer.Enabled = true;
