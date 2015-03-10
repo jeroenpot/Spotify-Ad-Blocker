@@ -1,26 +1,29 @@
 ﻿using System;
-using System.Diagnostics;
-using System.IO;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.Security;
+using System.Text;
 using Newtonsoft.Json;
+using System.IO;
+using System.Diagnostics;
+using System.Windows.Forms;
 
 namespace EZBlocker
 {
-    internal class WebHelperHook
+    class WebHelperHook
     {
-        private const string ua =
-            @"Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.65 Safari/537.36";
-
+        private const string ua = @"Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2214.111 Safari/537.36";
         private const string port = ":4380";
+
         private static string oauthToken;
         private static string csrfToken;
-        /**
-         * Checks if currently playing song is an ad.
-         * Returns 1 if is an ad, 0 if not an ad, -1 if error.
-         **/
+        private static string hostname;
 
-        public static int isAd()
+        /**
+         * Grabs the status of Spotify and returns a WebHelperResult object.
+         **/
+        public static WebHelperResult GetStatus()
         {
             if (oauthToken == null || oauthToken == "null")
             {
@@ -30,77 +33,147 @@ namespace EZBlocker
             {
                 SetCSRF();
             }
-            var result = GetPage(GetURL("/remote/status.json" + "?oauth=" + oauthToken + "&csrf=" + csrfToken));
+
+            string result = GetPage(GetURL("/remote/status.json" + "?oauth=" + oauthToken + "&csrf=" + csrfToken));
             Console.WriteLine(result);
-            using (var reader = new StringReader(result))
+
+            WebHelperResult whr = new WebHelperResult();
+
+            // Process data
+            using (StringReader reader = new StringReader(result))
             {
                 string line;
                 while ((line = reader.ReadLine()) != null)
                 {
-                    if (line.Contains("\"track_type\""))
+                    if (line.Contains("\"running\":"))
                     {
-                        if (line.Contains("\"ad\""))
+                        whr.isRunning = line.Contains("true");
+                    }
+                    // else if (line.Contains("\"track_type\":"))
+                    else if (line.Contains("\"next_enabled\":"))
+                    {
+                        whr.isAd = line.Contains("false");
+                    }
+                    else if (line.Contains("\"playing\":"))
+                    {
+                        whr.isPlaying = line.Contains("true");
+                    }
+                    /*else if (line.Contains("\"playing_position\":"))
+                    {
+                        if (!line.Contains("0,")) // Song isn't at 0 position
+                            whr.position = Convert.ToSingle(line.Split(new char[] { ':', ',' })[1]);
+                    }
+                    else if (line.Contains("\"length\":"))
+                    {
+                        whr.length = Convert.ToInt32(line.Split(new char[] { ':', ',' })[1]);
+                    }*/
+                    else if (line.Contains("\"artist_resource\":"))
+                    {
+                        while ((line = reader.ReadLine()) != null) // Read until we find the "name" field
                         {
-                            return 1;
+                            if (line.Contains("\"name\":"))
+                            {
+                                whr.artistName = (line.Replace("\"name\":", "").Split('"')[1]);
+                                break;
+                            }
                         }
-                        return 0;
+                    }
+                    else if (line.Contains("Invalid Csrf token"))
+                    {
+                        csrfToken = null;
                     }
                 }
             }
-            // If we're here, there was no track_type, so error in query?
-            oauthToken = null;
-            csrfToken = null;
-            return -1;
+
+            return whr;
         }
 
-        private static void CheckWebHelper()
+        public static void CheckWebHelper()
         {
-            foreach (var t in Process.GetProcesses().Where(t => t.ProcessName.ToLower().Equals("spotifywebhelper")))
-                // Check that SpotifyWebHelper.exe is running
+            foreach (Process t in Process.GetProcesses().Where(t => t.ProcessName.ToLower().Equals("spotifywebhelper"))) // Check that SpotifyWebHelper.exe is running
             {
                 return;
             }
-            // MessageBox.Show("It is recommended that you enable 'Allow Spotify to be started from the Web' in your Spotify preferences.", "EZBlocker");
             try
             {
-                Process.Start(Environment.GetEnvironmentVariable("APPDATA") + @"\Spotify\Data\SpotifyWebHelper.exe");
+                Console.WriteLine("Starting SpotifyWebHelper");
+                if (File.Exists(Environment.GetEnvironmentVariable("APPDATA") + @"\Spotify\Data\SpotifyWebHelper.exe"))
+                {
+                    Process.Start(Environment.GetEnvironmentVariable("APPDATA") + @"\Spotify\Data\SpotifyWebHelper.exe");
+                }
+                else
+                {
+                    Process.Start(Environment.GetEnvironmentVariable("APPDATA") + @"\Spotify\SpotifyWebHelper.exe");
+                }
             }
-            catch
-            {
+            catch {
+                MessageBox.Show("Please check 'Allow Spotify to be started from the Web' in your Spotify preferences.", "EZBlocker");
             }
+
         }
 
         private static void SetOAuth()
         {
+            Console.WriteLine("Getting OAuth Token");
             CheckWebHelper();
-            var url = "http://open.spotify.com/token";
-            var json = GetPage(url);
-            var res = JsonConvert.DeserializeObject<OAuth>(json);
-            oauthToken = res.t;
+            String url = "https://open.spotify.com/token";
+            String json = GetPage(url);
+            OAuth res = JsonConvert.DeserializeObject<OAuth>(json);
+            oauthToken = res.t; 
         }
 
         private static void SetCSRF()
         {
-            var url = GetURL("/simplecsrf/token.json");
-            var json = GetPage(url);
-            var res = JsonConvert.DeserializeObject<CSRF>(json);
-            csrfToken = res.token;
+            Console.WriteLine("Getting CSRF Token");
+            String url = GetURL("/simplecsrf/token.json");
+            String json = GetPage(url);
+            CSRF res = JsonConvert.DeserializeObject<CSRF>(json);
+            csrfToken = res.token; 
         }
 
         private static string GetURL(string path)
         {
-            return "http://" + new Random(Environment.TickCount).Next(100000, 100000000) + ".spotilocal.com" + port +
-                   path;
+            if (hostname == null)
+            {
+                hostname = new Random(Environment.TickCount).Next(100000, 100000000).ToString();
+            }
+            return "http://127.0.0.1" + port + path;
+            //return "http://" + hostname + ".spotilocal.com" + port + path;
         }
 
         private static string GetPage(string URL)
         {
-            var w = new WebClient();
+            WebClient w = new WebClient();
             w.Headers.Add("user-agent", ua);
             w.Headers.Add("Origin", "https://open.spotify.com");
             ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
-            var s = w.DownloadString(URL);
-            return s;
+            byte[] bytes = Encoding.Default.GetBytes(w.DownloadString(URL));
+            return Encoding.UTF8.GetString(bytes);
+        }
+
+        private static string RemoveDiacritics(string value)
+        {
+            if (String.IsNullOrEmpty(value))
+                return value;
+
+            string normalized = value.Normalize(NormalizationForm.FormD);
+            StringBuilder sb = new StringBuilder();
+
+            foreach (char c in normalized)
+            {
+                if (System.Globalization.CharUnicodeInfo.GetUnicodeCategory(c) != System.Globalization.UnicodeCategory.NonSpacingMark)
+                    sb.Append(c);
+            }
+
+            Encoding nonunicode = Encoding.GetEncoding(850);
+            Encoding unicode = Encoding.Unicode;
+
+            byte[] nonunicodeBytes = Encoding.Convert(unicode, nonunicode, unicode.GetBytes(sb.ToString()));
+            char[] nonunicodeChars = new char[nonunicode.GetCharCount(nonunicodeBytes, 0, nonunicodeBytes.Length)];
+            nonunicode.GetChars(nonunicodeBytes, 0, nonunicodeBytes.Length, nonunicodeChars, 0);
+
+            return new string(nonunicodeChars);
         }
     }
+
 }
