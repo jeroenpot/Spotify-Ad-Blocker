@@ -384,7 +384,7 @@ namespace EZBlocker
             {
                 Process.Start(volumeMixerPath);
             }
-            catch (Exception ignore)
+            catch (Exception)
             {
                 MessageBox.Show("Could not open Volume Mixer. This is only available on Windows 7/8/10", "EZBlocker");
             }
