@@ -143,7 +143,7 @@ namespace EZBlocker
 
         private static string GetPage(string URL)
         {
-            WebClient w = new WebClient();
+            WebClient w = new NonKeepAliveWebClient();
             w.Headers.Add("user-agent", ua);
             w.Headers.Add("Origin", "https://open.spotify.com");
             ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };

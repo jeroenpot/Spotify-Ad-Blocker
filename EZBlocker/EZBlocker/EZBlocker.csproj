@@ -75,6 +75,9 @@
   <ItemGroup>
     <Compile Include="Json\CSRF.cs" />
     <Compile Include="Json\OAuth.cs" />
+    <Compile Include="NonKeepAliveWebClient.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="WebHelperHook.cs" />
     <Compile Include="WebHelperResult.cs" />
     <Compile Include="MainWindow.cs">

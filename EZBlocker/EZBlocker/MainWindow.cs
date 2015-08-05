@@ -53,9 +53,6 @@ namespace EZBlocker
 
         public MainWindow()
         {
-            if (!HasNet35())
-                MessageBox.Show(".Net Framework 3.5 not found. EZBlocker may not work properly.", "EZBlocker");
-
             InitializeComponent();
 
             // minimize to tray
@@ -266,26 +263,12 @@ namespace EZBlocker
                 if (MessageBox.Show("There is a newer version of EZBlocker available. Would you like to upgrade?", "EZBlocker", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
                     Process.Start(website);
-                    Application.Exit();
+                    //Application.Exit();
                 }
             }
             catch
             {
-                MessageBox.Show("Error checking for update.", "EZBlocker");
-            }
-        }
-
-        bool HasNet35()
-        {
-            try
-            {
-                AppDomain.CurrentDomain.Load(
-                    "System.Core, Version=3.5.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089");
-                return true;
-            }
-            catch
-            {
-                return false;
+                //MessageBox.Show("Error checking for update.", "EZBlocker");
             }
         }
 
@@ -346,7 +329,7 @@ namespace EZBlocker
             if (visitorId == null) return; // Still setting up UI
             if (!IsUserAnAdmin())
             {
-                MessageBox.Show("Enabling/Disabling this option requires Administrator privilages.\n\nPlease reopen EZBlocker with \"Run as Administrator\".", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Enabling/Disabling this option requires Administrator privileges.\n\nPlease reopen EZBlocker with \"Run as Administrator\".", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             if (!File.Exists(hostsPath))
