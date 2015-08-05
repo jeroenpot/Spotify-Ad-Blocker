@@ -349,12 +349,17 @@ namespace EZBlocker
                 MessageBox.Show("Enabling/Disabling this option requires Administrator privilages.\n\nPlease reopen EZBlocker with \"Run as Administrator\".", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+            if (!File.Exists(hostsPath))
+            {
+                File.Create(hostsPath).Close();
+            }
             try
             {
                 if (BlockBannersCheckbox.Checked)
                 {
                     using (StreamWriter sw = File.AppendText(hostsPath))
                     {
+                        sw.WriteLine();
                         sw.WriteLine("0.0.0.0 pubads.g.doubleclick.net");
                         sw.WriteLine("0.0.0.0 securepubads.g.doubleclick.net");
                     }
@@ -440,12 +445,11 @@ namespace EZBlocker
 
             // Set up UI
             SpotifyMuteCheckbox.Checked = Properties.Settings.Default.SpotifyMute;
-            BlockBannersCheckbox.Checked = File.ReadAllText(hostsPath).Contains("doubleclick.net");
-            if (String.IsNullOrEmpty(Properties.Settings.Default.UID)) {
-                Properties.Settings.Default.UID = new Random().Next(100000000, 999999999).ToString(); // Build unique visitorId;
-                Properties.Settings.Default.Save();
+            if (File.Exists(hostsPath))
+            {
+                BlockBannersCheckbox.Checked = File.ReadAllText(hostsPath).Contains("doubleclick.net");
             }
-            visitorId = Properties.Settings.Default.UID;
+            
             Mute(0);
 
             MainTimer.Enabled = true;
