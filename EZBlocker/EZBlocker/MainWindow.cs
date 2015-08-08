@@ -25,7 +25,7 @@ namespace EZBlocker
         private string nircmdPath = Application.StartupPath + @"\nircmd.exe";
         private string jsonPath = Application.StartupPath + @"\Newtonsoft.Json.dll";
         private string coreaudioPath = Application.StartupPath + @"\CoreAudio.dll";
-        private string logPath = Application.StartupPath + @"\EZBlocker-log.txt";
+        //private string logPath = Application.StartupPath + @"\EZBlocker-log.txt";
 
         private string spotifyPath = Environment.GetEnvironmentVariable("APPDATA") + @"\Spotify\spotify.exe";
         private string volumeMixerPath = Environment.GetEnvironmentVariable("WINDIR") + @"\System32\SndVol.exe";
@@ -118,7 +118,7 @@ namespace EZBlocker
                 StatusLabel.Text = "Connection Error";
                 WebHelperHook.CheckWebHelper();
                 Console.WriteLine(except);
-                File.WriteAllText(logPath, except.ToString());
+                //File.WriteAllText(logPath, except.ToString());
             }
         }
        
