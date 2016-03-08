@@ -1,0 +1,46 @@
+﻿{
+  "version": 9,
+  "client_version": "1.0.24.104.g92a22684",
+  "playing": true,
+  "shuffle": true,
+  "repeat": false,
+  "play_enabled": true,
+  "prev_enabled": true,
+  "next_enabled": true,
+  "track": {
+    "track_resource": {
+      "name": "This World",
+      "uri": "spotify:track:5Fzsgjt24v7nDJdhIOIBS2",
+      "location": {
+        "og": "https://open.spotify.com/track/5Fzsgjt24v7nDJdhIOIBS2"
+      }
+    },
+    "artist_resource": {
+      "name": "Selah Sue",
+      "uri": "spotify:artist:5Oc4knEQaid8K7AFqO5lHu",
+      "location": {
+        "og": "https://open.spotify.com/artist/5Oc4knEQaid8K7AFqO5lHu"
+      }
+    },
+    "album_resource": {
+      "name": "Selah Sue",
+      "uri": "spotify:album:7BtQOponFepZBpu6Hteqd1",
+      "location": {
+        "og": "https://open.spotify.com/album/7BtQOponFepZBpu6Hteqd1"
+      }
+    },
+    "length": 285,
+    "track_type": "normal"
+  },
+  "context": {
+  },
+  "playing_position": 128.199,
+  "server_time": 1457450061,
+  "volume": 0.62999922,
+  "online": true,
+  "open_graph_state": {
+    "private_session": false,
+    "posting_disabled": true
+  },
+  "running": true
+}

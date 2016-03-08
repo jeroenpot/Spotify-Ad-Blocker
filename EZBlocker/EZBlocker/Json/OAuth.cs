@@ -1,7 +1,7 @@
-﻿namespace EZBlocker
+﻿namespace EZBlocker.Json
 {
     internal class OAuth
     {
-        public string t; // OAuth token
+        public string t { get; set; } // OAuth token
     }
 }

@@ -1,0 +1,25 @@
+﻿{
+"version": 9, 
+"client_version": "1.0.24.104.g92a22684", 
+"playing": true, 
+"shuffle": true, 
+"repeat": false, 
+"play_enabled": true, 
+"prev_enabled": false, 
+"next_enabled": false, 
+"track": {
+  "length": 30, 
+  "track_type": "ad"
+}, 
+"context": {
+}, 
+"playing_position": 11.679001, 
+"server_time": 1457449883, 
+"volume": 0.62999922, 
+"online": true, 
+"open_graph_state": {
+  "private_session": false, 
+  "posting_disabled": true
+}, 
+"running": true
+}

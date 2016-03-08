@@ -1,7 +1,7 @@
-﻿namespace EZBlocker
+﻿namespace EZBlocker.Json
 {
     internal class CSRF
     {
-        public string token;
+        public string token { get; set; }
     }
 }

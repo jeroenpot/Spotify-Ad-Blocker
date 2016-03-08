@@ -18,7 +18,7 @@ namespace EZBlocker
         [STAThread]
         private static void Main()
         {
-            var mutexId = string.Format("Local\\{{{0}}}", appGuid); // unique id for local mutex
+            var mutexId = $"Local\\{{{appGuid}}}"; // unique id for local mutex
 
             using (var mutex = new Mutex(false, mutexId))
             {
